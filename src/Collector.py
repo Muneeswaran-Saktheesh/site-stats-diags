@@ -1,33 +1,37 @@
+# collector.py
 import json
+from src import Charger
+from src import Connector
 
 def collect_charger_fields(charger):
     """
-    Collects fields from a charger object.
+    Collects fields from a charger object in the JSON data and creates a Charger object.
 
     Args:
-        charger (dict): Charger object containing fields like id, firmware_version, ip_address, and status.
+        charger (dict): A dictionary representing a charger object in the JSON data.
 
     Returns:
-        tuple: A tuple containing charger_id, firmware_version, ip_address, and status.
+        Charger: A Charger object populated with the collected fields.
     """
     charger_id = charger["id"]
     firmware_version = charger["firmware_version"]
     ip_address = charger["ip_address"]
     status = charger["status"]
-    return charger_id, firmware_version, ip_address, status
+    connectors = [collect_connector_fields(connector) for connector in charger["connectors"]]
+    return Charger(charger_id, firmware_version, ip_address, status, connectors)
 
 def collect_connector_fields(connector):
     """
-    Collects fields from a connector object.
+    Collects fields from a connector object in the JSON data and creates a Connector object.
 
     Args:
-        connector (dict): Connector object containing fields like id, status, ocpp_error_code, ocpp_error_info, and ocpp_error_timestamp.
+        connector (dict): A dictionary representing a connector object in the JSON data.
 
     Returns:
-        tuple: A tuple containing connector_id, connector_status, ocpp_error_code, ocpp_error_info, and ocpp_error_timestamp.
+        Connector: A Connector object populated with the collected fields.
     """
     connector_id = connector["id"]
-    connector_status = connector["status"]
+    status = connector["status"]
     ocpp_error_code = connector["ocpp_error_code"]
     if connector["ocpp_error"]:
         ocpp_error_info = connector["ocpp_error"]["info"]
@@ -35,61 +39,40 @@ def collect_connector_fields(connector):
     else:
         ocpp_error_info = None
         ocpp_error_timestamp = None
-    return connector_id, connector_status, ocpp_error_code, ocpp_error_info, ocpp_error_timestamp
+    return Connector(connector_id, status, ocpp_error_code, ocpp_error_info, ocpp_error_timestamp)
 
 def collect_fields(chargers):
     """
-    Collects fields from a list of charger objects.
+    Collects fields from charger objects in the JSON data and creates Charger objects.
 
     Args:
-        chargers (list): List of charger objects.
+        chargers (list): A list of dictionaries representing charger objects in the JSON data.
 
     Returns:
-        dict: A dictionary containing lists of collected fields like charger_ids, firmware_versions, ip_addresses, etc.
+        list: A list of Charger objects populated with the collected fields.
     """
-    charger_ids = []
-    firmware_versions = []
-    ip_addresses = []
-    statuses = []
-    connector_ids = []
-    connector_statuses = []
-    ocpp_error_codes = []
-    ocpp_error_infos = []
-    ocpp_error_timestamps = []
-
-    for charger in chargers:
-        charger_id, firmware_version, ip_address, status = collect_charger_fields(charger)
-        charger_ids.append(charger_id)
-        firmware_versions.append(firmware_version)
-        ip_addresses.append(ip_address)
-        statuses.append(status)
-
-        for connector in charger["connectors"]:
-            connector_id, connector_status, ocpp_error_code, ocpp_error_info, ocpp_error_timestamp = collect_connector_fields(connector)
-            connector_ids.append(connector_id)
-            connector_statuses.append(connector_status)
-            ocpp_error_codes.append(ocpp_error_code)
-            ocpp_error_infos.append(ocpp_error_info)
-            ocpp_error_timestamps.append(ocpp_error_timestamp)
-
-    return {
-        "charger_ids": charger_ids,
-        "firmware_versions": firmware_versions,
-        "ip_addresses": ip_addresses,
-        "statuses": statuses,
-        "connector_ids": connector_ids,
-        "connector_statuses": connector_statuses,
-        "ocpp_error_codes": ocpp_error_codes,
-        "ocpp_error_infos": ocpp_error_infos,
-        "ocpp_error_timestamps": ocpp_error_timestamps
-    }
+    return [collect_charger_fields(charger) for charger in chargers]
 
 def main():
+    """
+    Main function to collect fields from JSON data and print information about chargers and connectors.
+    """
     with open('chargers.json') as f:
         chargers_data = json.load(f)
         chargers = chargers_data["chargers"]
-        collected_fields = collect_fields(chargers)
-        print(collected_fields)
+        charger_objects = collect_fields(chargers)
+        for charger in charger_objects:
+            print("Charger ID:", charger.charger_id)
+            print("Firmware Version:", charger.firmware_version)
+            print("IP Address:", charger.ip_address)
+            print("Status:", charger.status)
+            for connector in charger.connectors:
+                print("Connector ID:", connector.connector_id)
+                print("Status:", connector.status)
+                print("OCPP Error Code:", connector.ocpp_error_code)
+                print("OCPP Error Info:", connector.ocpp_error_info)
+                print("OCPP Error Timestamp:", connector.ocpp_error_timestamp)
+            print("--------------------")
 
 if __name__ == "__main__":
     main()
