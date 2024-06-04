@@ -1,0 +1,236 @@
+{
+    "chargers": [
+        {
+            "connectors": [
+                {
+                    "id": 1,
+                    "ocpp_error": {
+                        "error_code": "NoError",
+                        "info": null,
+                        "timestamp": "2024-03-11T15:02:06.190529+00:00",
+                        "vendor_error_code": null,
+                        "vendor_id": null
+                    },
+                    "ocpp_error_code": "NoError",
+                    "priority": false,
+                    "status": "available"
+                }
+            ],
+            "firmware_version": "6.5.0-QA2-LA-9332",
+            "id": "ACE0237625",
+            "ip_address": "172.22.0.220",
+            "ocpp_error": {
+                "error_code": "NoError",
+                "info": null,
+                "timestamp": "2024-03-11T15:02:06.162554+00:00",
+                "vendor_error_code": null,
+                "vendor_id": null
+            },
+            "ocpp_error_code": "NoError",
+            "status": "online"
+        },
+        {
+            "connectors": [
+                {
+                    "id": 1,
+                    "ocpp_error": {
+                        "error_code": "NoError",
+                        "info": null,
+                        "timestamp": "2024-03-14T06:34:44.276416+00:00",
+                        "vendor_error_code": null,
+                        "vendor_id": null
+                    },
+                    "ocpp_error_code": "NoError",
+                    "priority": false,
+                    "status": "charging"
+                }
+            ],
+            "firmware_version": "6.5.0-QA2-LA-9332",
+            "id": "ACE0237630",
+            "ip_address": "172.22.0.30",
+            "ocpp_error": {
+                "error_code": "NoError",
+                "info": "Info: Charge card B4D2555C detected",
+                "timestamp": "2024-03-14T06:34:24.187015+00:00",
+                "vendor_error_code": null,
+                "vendor_id": null
+            },
+            "ocpp_error_code": "NoError",
+            "status": "online"
+        },
+        {
+            "connectors": [
+                {
+                    "id": 1,
+                    "ocpp_error": {
+                        "error_code": "NoError",
+                        "info": null,
+                        "timestamp": "2024-03-14T06:49:29.525693+00:00",
+                        "vendor_error_code": null,
+                        "vendor_id": null
+                    },
+                    "ocpp_error_code": "NoError",
+                    "priority": false,
+                    "status": "charging"
+                }
+            ],
+            "firmware_version": "6.5.0-QA2-LA-9332",
+            "id": "ACE0237629",
+            "ip_address": "172.22.0.89",
+            "ocpp_error": {
+                "error_code": "NoError",
+                "info": "Info: Charge card 1433575C detected",
+                "timestamp": "2024-03-14T06:49:14.503463+00:00",
+                "vendor_error_code": null,
+                "vendor_id": null
+            },
+            "ocpp_error_code": "NoError",
+            "status": "online"
+        },
+        {
+            "connectors": [
+                {
+                    "id": 1,
+                    "ocpp_error": {
+                        "error_code": "NoError",
+                        "info": "SmartCharging(16A)",
+                        "timestamp": "2024-03-14T07:44:48.332222+00:00",
+                        "vendor_error_code": null,
+                        "vendor_id": null
+                    },
+                    "ocpp_error_code": "NoError",
+                    "priority": false,
+                    "status": "charging"
+                }
+            ],
+            "firmware_version": "6.5.0-QA2-LA-9332",
+            "id": "ACE0237623",
+            "ip_address": "172.22.0.139",
+            "ocpp_error": {
+                "error_code": "NoError",
+                "info": "Info: Charge card C430545C detected",
+                "timestamp": "2024-03-14T07:11:15.864436+00:00",
+                "vendor_error_code": null,
+                "vendor_id": null
+            },
+            "ocpp_error_code": "NoError",
+            "status": "online"
+        },
+        {
+            "connectors": [
+                {
+                    "id": 1,
+                    "ocpp_error": {
+                        "error_code": "NoError",
+                        "info": "SmartCharging(16A)",
+                        "timestamp": "2024-03-14T08:13:48.958235+00:00",
+                        "vendor_error_code": null,
+                        "vendor_id": null
+                    },
+                    "ocpp_error_code": "NoError",
+                    "priority": false,
+                    "status": "suspended_ev"
+                }
+            ],
+            "firmware_version": "6.5.0-QA2-LA-9332",
+            "id": "ACE0237626",
+            "ip_address": "172.22.0.20",
+            "ocpp_error": {
+                "error_code": "NoError",
+                "info": "Info: Charge card C428575C detected",
+                "timestamp": "2024-03-14T05:30:58.506711+00:00",
+                "vendor_error_code": null,
+                "vendor_id": null
+            },
+            "ocpp_error_code": "NoError",
+            "status": "online"
+        },
+        {
+            "connectors": [
+                {
+                    "id": 1,
+                    "ocpp_error": {
+                        "error_code": "NoError",
+                        "info": null,
+                        "timestamp": "2024-03-14T06:13:52.401695+00:00",
+                        "vendor_error_code": null,
+                        "vendor_id": null
+                    },
+                    "ocpp_error_code": "NoError",
+                    "priority": false,
+                    "status": "available"
+                }
+            ],
+            "firmware_version": "6.5.0-QA2-LA-9332",
+            "id": "ACE0237624",
+            "ip_address": "172.22.0.106",
+            "ocpp_error": {
+                "error_code": "NoError",
+                "info": null,
+                "timestamp": "2024-03-14T06:13:52.360496+00:00",
+                "vendor_error_code": null,
+                "vendor_id": null
+            },
+            "ocpp_error_code": "NoError",
+            "status": "online"
+        },
+        {
+            "connectors": [
+                {
+                    "id": 1,
+                    "ocpp_error": {
+                        "error_code": "NoError",
+                        "info": "Cable connected without tag remove cable retry",
+                        "timestamp": "2024-03-14T07:40:38.581912+00:00",
+                        "vendor_error_code": "304",
+                        "vendor_id": null
+                    },
+                    "ocpp_error_code": "NoError",
+                    "priority": false,
+                    "status": "finishing"
+                }
+            ],
+            "firmware_version": "6.5.0-QA2-LA-9332",
+            "id": "ACE0237628",
+            "ip_address": "172.22.0.87",
+            "ocpp_error": {
+                "error_code": "NoError",
+                "info": null,
+                "timestamp": "2024-03-14T07:36:54.547584+00:00",
+                "vendor_error_code": null,
+                "vendor_id": null
+            },
+            "ocpp_error_code": "NoError",
+            "status": "online"
+        },
+        {
+            "connectors": [
+                {
+                    "id": 1,
+                    "ocpp_error": {
+                        "error_code": "NoError",
+                        "info": null,
+                        "timestamp": "2024-03-14T08:23:10.915960+00:00",
+                        "vendor_error_code": null,
+                        "vendor_id": null
+                    },
+                    "ocpp_error_code": "NoError",
+                    "priority": false,
+                    "status": "charging"
+                }
+            ],
+            "firmware_version": "6.5.0-QA2-LA-9332",
+            "id": "ACE0237627",
+            "ip_address": "172.22.0.83",
+            "ocpp_error": {
+                "error_code": "NoError",
+                "info": null,
+                "timestamp": "2024-03-14T08:21:27.453929+00:00",
+                "vendor_error_code": null,
+                "vendor_id": null
+            },
+            "ocpp_error_code": "NoError",
+            "status": "online"
+        }
+    ]
+}

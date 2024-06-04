@@ -1,0 +1,81 @@
+{
+    "action": "response",
+    "charging_stations": [
+        {
+            "id": "ACE0237624"
+        },
+        {
+            "id": "ACE0237625"
+        },
+        {
+            "id": "ACE0237627"
+        },
+        {
+            "id": "ACE0237629"
+        },
+        {
+            "id": "ACE0237623"
+        },
+        {
+            "id": "ACE0237630"
+        },
+        {
+            "id": "ACE0237626"
+        },
+        {
+            "id": "ACE0237628"
+        }
+    ],
+    "datetime": "2024-03-13T15:02:58.556544",
+    "evs": [
+        {
+            "action": "response",
+            "apd_state": null,
+            "charge_capability": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "charge_current": [
+                16.097,
+                0.0,
+                0.0
+            ],
+            "charge_offer": [
+                16.0,
+                0.0,
+                0.0
+            ],
+            "charge_power": 3720.9,
+            "charger_firmware": "6.5.0-QA2-LA-9332",
+            "charger_id": "ACE0237630",
+            "connector_id": 1,
+            "discharge_capability": [],
+            "discharge_current": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "discharge_offer": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "discharge_power": 0.0,
+            "ev_suspended": false,
+            "id": "5815223",
+            "meter_values_timestamp": "2024-03-13T15:02:56+00:00",
+            "plugin_time": "2024-03-13T14:38:27+00:00",
+            "rfid": "04AA545C",
+            "session_energy_consumed": 1490.0,
+            "session_energy_produced": 0.0,
+            "soc": null,
+            "start_charging_time": "2024-03-13T14:38:41.193614+00:00",
+            "status": "charging",
+            "total_energy_consumed": 2472599.0,
+            "total_energy_produced": 0.0,
+            "transaction_ongoing": true
+        }
+    ],
+    "offline_chargers": []
+}

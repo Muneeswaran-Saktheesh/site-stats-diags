@@ -1,0 +1,622 @@
+{
+    "charging_stations": [
+        {
+            "connectors": [
+                {
+                    "capability": [
+                        16.0,
+                        16.0,
+                        16.0
+                    ],
+                    "charger_id": null,
+                    "connector_id": 1,
+                    "efficiency": 0.0,
+                    "fallback_value": [],
+                    "id": "Ost 4 (ACE0237624)",
+                    "lowest_acceptable_current": 0.0,
+                    "lowest_acceptable_offer": 0.0,
+                    "phase_mapping": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "priority": 1,
+                    "uuid": "4a43db46-58bb-4932-be64-4f3ec73deee1"
+                }
+            ],
+            "current_type": "AC",
+            "efficiency": 0.95,
+            "fallback_value": [],
+            "firmware_version": "5.8.0-4120",
+            "id": "ACE0237624",
+            "ip_address": null,
+            "lowest_acceptable_current": 0.0,
+            "lowest_acceptable_offer": 6.0,
+            "manual_phase_rotation": false,
+            "name": "Ost 4 (ACE0237624)",
+            "ocpp_interface": false,
+            "ocpp_tls": null,
+            "parent_fuse": 1,
+            "plug_count": 1,
+            "type": "ICU Wallbox Eve Mini",
+            "uuid": "c8315d01-95ac-4d57-8717-418f4734e2c7"
+        },
+        {
+            "connectors": [
+                {
+                    "capability": [
+                        16.0,
+                        16.0,
+                        16.0
+                    ],
+                    "charger_id": null,
+                    "connector_id": 1,
+                    "efficiency": 0.0,
+                    "fallback_value": [],
+                    "id": "Ost 1 (ACE0237625)",
+                    "lowest_acceptable_current": 0.0,
+                    "lowest_acceptable_offer": 0.0,
+                    "phase_mapping": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "priority": 1,
+                    "uuid": "cb3297dd-0c5c-4054-89fa-e16ad017d64d"
+                }
+            ],
+            "current_type": "AC",
+            "efficiency": 0.95,
+            "fallback_value": [],
+            "firmware_version": "5.8.0-4120",
+            "id": "ACE0237625",
+            "ip_address": null,
+            "lowest_acceptable_current": 0.0,
+            "lowest_acceptable_offer": 6.0,
+            "manual_phase_rotation": false,
+            "name": "Ost 1 (ACE0237625)",
+            "ocpp_interface": false,
+            "ocpp_tls": null,
+            "parent_fuse": 1,
+            "plug_count": 1,
+            "type": "ICU Wallbox Eve Mini",
+            "uuid": "2339d841-4f9d-41f9-964a-34493051143a"
+        },
+        {
+            "connectors": [
+                {
+                    "capability": [
+                        16.0,
+                        16.0,
+                        16.0
+                    ],
+                    "charger_id": null,
+                    "connector_id": 1,
+                    "efficiency": 0.0,
+                    "fallback_value": [],
+                    "id": "West 3 (ACE0237627)",
+                    "lowest_acceptable_current": 0.0,
+                    "lowest_acceptable_offer": 0.0,
+                    "phase_mapping": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "priority": 1,
+                    "uuid": "337696f0-3591-4525-bab6-f26a352b18c4"
+                }
+            ],
+            "current_type": "AC",
+            "efficiency": 0.95,
+            "fallback_value": [],
+            "firmware_version": "5.4.3-4073",
+            "id": "ACE0237627",
+            "ip_address": null,
+            "lowest_acceptable_current": 0.0,
+            "lowest_acceptable_offer": 6.0,
+            "manual_phase_rotation": false,
+            "name": "West 3 (ACE0237627)",
+            "ocpp_interface": false,
+            "ocpp_tls": null,
+            "parent_fuse": 2,
+            "plug_count": 1,
+            "type": "ICU Wallbox Eve Mini",
+            "uuid": "eb78cf90-e49a-4ad2-83a9-4d3527a7791e"
+        },
+        {
+            "connectors": [
+                {
+                    "capability": [
+                        16.0,
+                        16.0,
+                        16.0
+                    ],
+                    "charger_id": null,
+                    "connector_id": 1,
+                    "efficiency": 0.0,
+                    "fallback_value": [],
+                    "id": "Ost 2 (ACE0237629)",
+                    "lowest_acceptable_current": 0.0,
+                    "lowest_acceptable_offer": 0.0,
+                    "phase_mapping": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "priority": 1,
+                    "uuid": "385578a4-c3e7-41be-8a82-69808fd89a9e"
+                }
+            ],
+            "current_type": "AC",
+            "efficiency": 0.95,
+            "fallback_value": [],
+            "firmware_version": "5.8.0-4120",
+            "id": "ACE0237629",
+            "ip_address": null,
+            "lowest_acceptable_current": 0.0,
+            "lowest_acceptable_offer": 6.0,
+            "manual_phase_rotation": false,
+            "name": "Ost 2 (ACE0237629)",
+            "ocpp_interface": false,
+            "ocpp_tls": null,
+            "parent_fuse": 1,
+            "plug_count": 1,
+            "type": "ICU Wallbox Eve Mini",
+            "uuid": "306220a0-d839-4c4f-8ea3-4b71a162f51a"
+        },
+        {
+            "connectors": [
+                {
+                    "capability": [
+                        16.0,
+                        16.0,
+                        16.0
+                    ],
+                    "charger_id": null,
+                    "connector_id": 1,
+                    "efficiency": 0.0,
+                    "fallback_value": [],
+                    "id": "West 1 (ACE0237623)",
+                    "lowest_acceptable_current": 0.0,
+                    "lowest_acceptable_offer": 0.0,
+                    "phase_mapping": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "priority": 1,
+                    "uuid": "587ec64d-c729-44e3-a1f5-fde310972992"
+                }
+            ],
+            "current_type": "AC",
+            "efficiency": 0.95,
+            "fallback_value": [],
+            "firmware_version": "5.8.0-4120",
+            "id": "ACE0237623",
+            "ip_address": null,
+            "lowest_acceptable_current": 0.0,
+            "lowest_acceptable_offer": 6.0,
+            "manual_phase_rotation": false,
+            "name": "West 1 (ACE0237623)",
+            "ocpp_interface": false,
+            "ocpp_tls": null,
+            "parent_fuse": 2,
+            "plug_count": 1,
+            "type": "ICU Wallbox Eve Mini",
+            "uuid": "d5dbfc29-9e73-4e67-876b-332df9b74890"
+        },
+        {
+            "connectors": [
+                {
+                    "capability": [
+                        16.0,
+                        16.0,
+                        16.0
+                    ],
+                    "charger_id": null,
+                    "connector_id": 1,
+                    "efficiency": 0.0,
+                    "fallback_value": [],
+                    "id": "West 2 (ACE0237630)",
+                    "lowest_acceptable_current": 0.0,
+                    "lowest_acceptable_offer": 0.0,
+                    "phase_mapping": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "priority": 1,
+                    "uuid": "92aa5e86-e65a-4ff4-adaf-ef02bb171b2e"
+                }
+            ],
+            "current_type": "AC",
+            "efficiency": 0.95,
+            "fallback_value": [],
+            "firmware_version": "5.8.0-4120",
+            "id": "ACE0237630",
+            "ip_address": null,
+            "lowest_acceptable_current": 0.0,
+            "lowest_acceptable_offer": 6.0,
+            "manual_phase_rotation": false,
+            "name": "West 2 (ACE0237630)",
+            "ocpp_interface": false,
+            "ocpp_tls": null,
+            "parent_fuse": 2,
+            "plug_count": 1,
+            "type": "ICU Wallbox Eve Mini",
+            "uuid": "729144f8-f7d9-4d01-8a0c-adcaf05f0a63"
+        },
+        {
+            "connectors": [
+                {
+                    "capability": [
+                        16.0,
+                        16.0,
+                        16.0
+                    ],
+                    "charger_id": null,
+                    "connector_id": 1,
+                    "efficiency": 0.0,
+                    "fallback_value": [],
+                    "id": "West 4 (ACE0237626)",
+                    "lowest_acceptable_current": 0.0,
+                    "lowest_acceptable_offer": 0.0,
+                    "phase_mapping": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "priority": 1,
+                    "uuid": "0061ca62-3c0f-4e32-ba88-ba5bb226fd44"
+                }
+            ],
+            "current_type": "AC",
+            "efficiency": 0.95,
+            "fallback_value": [],
+            "firmware_version": "5.4.3-4073",
+            "id": "ACE0237626",
+            "ip_address": null,
+            "lowest_acceptable_current": 0.0,
+            "lowest_acceptable_offer": 6.0,
+            "manual_phase_rotation": false,
+            "name": "West 4 (ACE0237626)",
+            "ocpp_interface": false,
+            "ocpp_tls": null,
+            "parent_fuse": 2,
+            "plug_count": 1,
+            "type": "ICU Wallbox Eve Mini",
+            "uuid": "2fed4b33-8468-439e-814f-37c537083aa0"
+        },
+        {
+            "connectors": [
+                {
+                    "capability": [
+                        16.0,
+                        16.0,
+                        16.0
+                    ],
+                    "charger_id": null,
+                    "connector_id": 1,
+                    "efficiency": 0.0,
+                    "fallback_value": [],
+                    "id": "Ost 3 (ACE0237628)",
+                    "lowest_acceptable_current": 0.0,
+                    "lowest_acceptable_offer": 0.0,
+                    "phase_mapping": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "priority": 1,
+                    "uuid": "4c351ca7-06f9-4e2a-9737-43397728e8a7"
+                }
+            ],
+            "current_type": "AC",
+            "efficiency": 0.95,
+            "fallback_value": [],
+            "firmware_version": "5.4.3-4073",
+            "id": "ACE0237628",
+            "ip_address": null,
+            "lowest_acceptable_current": 0.0,
+            "lowest_acceptable_offer": 6.0,
+            "manual_phase_rotation": false,
+            "name": "Ost 3 (ACE0237628)",
+            "ocpp_interface": false,
+            "ocpp_tls": null,
+            "parent_fuse": 1,
+            "plug_count": 1,
+            "type": "ICU Wallbox Eve Mini",
+            "uuid": "22135cde-9f7b-470e-8374-c8e81fccb9d8"
+        }
+    ],
+    "cpo_backend_url": null,
+    "grid_connection": {
+        "automated_phase_detection_enabled": false,
+        "fuse_tree": [
+            {
+                "dynamic_load_management": {
+                    "fallback_value_for_siteload": 60,
+                    "power_generator": true
+                },
+                "fuse_id": 0,
+                "fuse_name": null,
+                "limit": 350,
+                "parent_fuse": null,
+                "phase_imbalance_limit": 0.0,
+                "power_meter": {
+                    "ip": "192.168.100.182",
+                    "meter_id": 2,
+                    "meter_type": "janitza604",
+                    "port": 502,
+                    "serial_number": null,
+                    "serial_port": null,
+                    "transformer_ratios": null
+                }
+            },
+            {
+                "dynamic_load_management": null,
+                "fuse_id": 2,
+                "fuse_name": null,
+                "limit": 160,
+                "parent_fuse": 0,
+                "phase_imbalance_limit": 0.0,
+                "power_meter": null
+            },
+            {
+                "dynamic_load_management": null,
+                "fuse_id": 1,
+                "fuse_name": null,
+                "limit": 160,
+                "parent_fuse": 0,
+                "phase_imbalance_limit": 0.0,
+                "power_meter": null
+            }
+        ],
+        "number_of_phases": 3,
+        "voltage": 230
+    },
+    "new_phase_rotation_logic": false,
+    "payload_version": "ebe00481-07da-572b-99f9-fafb685f5d15",
+    "rfids": [
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "9bf16b34-30e0-4128-adeb-234fb48f39f7",
+            "identifier": "24245C5C",
+            "name": "Odobasic Ismar",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "1e07e619-3cfc-48ca-b2e1-db4991c42661",
+            "identifier": "E4404E5C",
+            "name": "AIB-ZC 90E > Haiplik Josef",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "90440ffe-c9ec-489e-83b3-af8e1f3718f8",
+            "identifier": "C430545C",
+            "name": "AIB-ZC 11E > Kranich Fabian",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "9798e7d1-a00a-48be-913c-50826847e8fb",
+            "identifier": "C428575C",
+            "name": "AIB-ZC 20E > Schulz David",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "c0c0f4c4-da39-47fa-a638-44916e789a23",
+            "identifier": "04AA545C",
+            "name": "AIB-ZC 10E  > Huber Benedikt",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "c7854378-fdcb-4ce5-b803-6ed119691710",
+            "identifier": "A4BC505C",
+            "name": "ZC-FREI-7-",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "be747098-b058-448c-9cd0-913de5ec9217",
+            "identifier": "F42C595C",
+            "name": "GAST-1",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "0f38a2d5-8500-45bc-a6e0-8b1001d83749",
+            "identifier": "F465585C",
+            "name": "GAST-2",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "b36e1648-b187-49c7-9663-b6ab32ce926f",
+            "identifier": "A49F555C",
+            "name": "AIB-ZC 30E > Schiechel Ralf",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "3c1dd570-b353-4df6-bc6b-26d97d24268d",
+            "identifier": "E47E535C",
+            "name": "ZC-FREI-4-",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "d311c37e-9a2a-4cd2-841a-1a3093d6668f",
+            "identifier": "3422545C",
+            "name": "ZC-FREI-3-",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "1181c700-0e50-4481-bc05-6c395f88044b",
+            "identifier": "74F64C5C",
+            "name": "ZC-FREI-5-",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "d1102884-9db7-4aa4-882b-ce55d5f333f9",
+            "identifier": "844F505C",
+            "name": "ZC-FREI-6-",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "bd7d5ab8-fa09-4965-aa31-bf47a26cb7a8",
+            "identifier": "B4D2555C",
+            "name": "Huber Manuel",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "1118aef6-687a-4b21-8136-fc590d96ee77",
+            "identifier": "B4EC4C5C",
+            "name": "AIB-ZC 22E > Deffner Heike",
+            "schedules": []
+        },
+        {
+            "ev": null,
+            "has_priority": false,
+            "id": "ab1d171e-3aa2-4e96-b2de-d005c60da2e4",
+            "identifier": "1433575C",
+            "name": "Hofmann Klaus",
+            "schedules": []
+        }
+    ],
+    "schema_version": "4.1.1",
+    "settings": {
+        "allow_offline_charging": {
+            "source": "default",
+            "value": true
+        },
+        "cgw_enable_state_machine": {
+            "source": "env-var",
+            "value": false
+        },
+        "cgw_fallback_value_max_offer_duration": {
+            "source": "default",
+            "value": 30
+        },
+        "cgw_log_level": {
+            "source": "cloud",
+            "value": "debug"
+        },
+        "cgw_meter_values_interval": {
+            "source": "default",
+            "value": 4
+        },
+        "cgw_remote_log_level": {
+            "source": "env-var",
+            "value": null
+        },
+        "dhcp_address": {
+            "source": "cloud",
+            "value": "172.22.0.1"
+        },
+        "dhcp_range_end": {
+            "source": "cloud",
+            "value": "172.22.0.35"
+        },
+        "dhcp_range_start": {
+            "source": "cloud",
+            "value": "172.22.0.20"
+        },
+        "dhcp_subnet": {
+            "source": "cloud",
+            "value": "172.22.0.0"
+        },
+        "diagnostics_post_timeout_seconds": {
+            "source": "default",
+            "value": 180
+        },
+        "disable_websocket_ping": {
+            "source": "env-var",
+            "value": true
+        },
+        "enable_fallback": {
+            "source": "default",
+            "value": false
+        },
+        "enable_logging_to_ocpp_index": {
+            "source": "cloud",
+            "value": "debug"
+        },
+        "enable_udp_server": {
+            "source": "default",
+            "value": true
+        },
+        "enable_vas": {
+            "source": "env-var",
+            "value": false
+        },
+        "evtec_rfid": {
+            "source": "env-var",
+            "value": null
+        },
+        "evtec_standby_power_w": {
+            "source": "env-var",
+            "value": 200
+        },
+        "heliox_max_offline_power": {
+            "source": "env-var",
+            "value": "3000"
+        },
+        "keba_failsafe_timeout": {
+            "source": "env-var",
+            "value": 300
+        },
+        "keba_request_status_interval": {
+            "source": "env-var",
+            "value": 10
+        },
+        "limited_connection": {
+            "source": "env-var",
+            "value": false
+        },
+        "phase_current_threshold": {
+            "source": "env-var",
+            "value": 0.5
+        },
+        "phase_imbalance_limit": {
+            "source": "default",
+            "value": 0
+        },
+        "trigger_meter_values": {
+            "source": "default",
+            "value": false
+        },
+        "vas_precon_type": {
+            "source": "env-var",
+            "value": 2
+        },
+        "vas_use_new_certificate": {
+            "source": "env-var",
+            "value": false
+        }
+    },
+    "site_id": "870d8f4c-8b29-43a9-bff4-6c53a90a531a"
+}
