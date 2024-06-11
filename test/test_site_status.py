@@ -7,7 +7,7 @@ from tabulate import tabulate
 
 # Correct import paths
 from src.charging_stations_status import ChargingStationsStatus
-from src.dnmasq_leases import DnsmasqLeases
+from src.dnsmasq_leases import DnsmasqLeases
 from src.site_status import SiteStatus
 
 class TestSiteStatus(unittest.TestCase):

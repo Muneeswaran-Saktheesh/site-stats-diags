@@ -1,6 +1,7 @@
-from datetime import datetime
 import os
-
+import logging
+from datetime import datetime
+from tabulate import tabulate
 
 class DnsmasqLeases:
     """
@@ -22,42 +23,38 @@ class DnsmasqLeases:
         Reads the dnsmasq leases file and populates the entries.
         """
         try:
-            with open(self.filename, 'r') as file:
-                for line in file:
-                    fields = line.split()
-                    if len(fields) >= 5:
-                        lease_time, mac_address, ip_address, hostname, client_id = fields[:5]
-                        lease_time_formatted = self.convert_lease_time(lease_time)
-                        entry = {
-                            'lease_time': lease_time_formatted,
-                            'mac_address': mac_address,
-                            'ip_address': ip_address,
-                            'hostname': hostname,
-                            'client_id': client_id
-                        }
-                        self.entries.append(entry)
+            self._read_file(self.filename)
         except FileNotFoundError:
             base_filename = os.path.basename(self.filename)
             cwd = os.getcwd()
             file_path = os.path.join(cwd, base_filename)
             try:
-                with open(file_path, 'r') as file:
-                    for line in file:
-                        fields = line.split()
-                        if len(fields) >= 5:
-                            lease_time, mac_address, ip_address, hostname, client_id = fields[:5]
-                            lease_time_formatted = self.convert_lease_time(lease_time)
-                            entry = {
-                                'lease_time': lease_time_formatted,
-                                'mac_address': mac_address,
-                                'ip_address': ip_address,
-                                'hostname': hostname,
-                                'client_id': client_id
-                            }
-                            self.entries.append(entry)
+                self._read_file(file_path)
             except FileNotFoundError:
-                print(f"Error: File {self.filename} not found.")
-                print(f"Error: File {file_path} not found.")
+                logging.error(f"Error: File {self.filename} not found.")
+                logging.error(f"Error: File {file_path} not found.")
+
+    def _read_file(self, filepath: str) -> None:
+        """
+        Reads a file and populates the entries.
+
+        Args:
+            filepath (str): The path to the file.
+        """
+        with open(filepath, 'r') as file:
+            for line in file:
+                fields = line.split()
+                if len(fields) >= 5:
+                    lease_time, mac_address, ip_address, hostname, client_id = fields[:5]
+                    lease_time_formatted = self.convert_lease_time(lease_time)
+                    entry = {
+                        'lease_time': lease_time_formatted,
+                        'mac_address': mac_address,
+                        'ip_address': ip_address,
+                        'hostname': hostname,
+                        'client_id': client_id
+                    }
+                    self.entries.append(entry)
 
     def convert_lease_time(self, timestamp: str) -> str:
         """
@@ -79,7 +76,7 @@ class DnsmasqLeases:
             ip_address (str): The IP address.
 
         Returns:
-            str: The MAC address.
+            str: The MAC address or None if not found.
         """
         for entry in self.entries:
             if entry['ip_address'] == ip_address:
@@ -94,7 +91,7 @@ class DnsmasqLeases:
             ip_address (str): The IP address.
 
         Returns:
-            str: The lease time.
+            str: The lease time or None if not found.
         """
         for entry in self.entries:
             if entry['ip_address'] == ip_address:
@@ -105,8 +102,13 @@ class DnsmasqLeases:
         """
         Displays the dnsmasq leases in a tabular format.
         """
-        from tabulate import tabulate
         headers = ['Lease Time', 'MAC Address', 'IP Address', 'Hostname', 'Client ID']
         rows = [[entry['lease_time'], entry['mac_address'], entry['ip_address'], entry['hostname'], entry['client_id']]
                 for entry in self.entries]
         print(tabulate(rows, headers=headers))
+
+# Example usage:
+# logging.basicConfig(level=logging.INFO)
+# leases = DnsmasqLeases('/path/to/dnsmasq.leases')
+# leases.read_leases()
+# leases.display()

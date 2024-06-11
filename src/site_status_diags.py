@@ -1,38 +1,49 @@
-from redis_handler import RedisHandler
-from site_status import SiteStatus
-from charging_stations_status import ChargingStationsStatus
-from dnmasq_leases import DnsmasqLeases
 import json
+import logging
 
-if __name__ == "__main__":
+from src.redis_handler import RedisHandler
+from src.site_status import SiteStatus
+from src.charging_stations_status import ChargingStationsStatus
+from src.dnsmasq_leases import DnsmasqLeases
+
+logging.basicConfig(level=logging.DEBUG)
+
+def main():
     redis_handler = RedisHandler()
+    dnsmasq_leases = DnsmasqLeases('dnsmasq.leases')  # Assuming the filename is 'dnsmasq.leases'
 
-    key_site_status = 'cgw/SiteStatus'
-    site_status = None
     try:
-        site_status_json = redis_handler.get_value(key_site_status)
-        if site_status_json is not None:
-            site_status = json.loads(site_status_json)
+        site_status_json = redis_handler.get_value('cgw/SiteStatus')
+        if site_status_json:
+            site_status = SiteStatus.from_json(json.loads(site_status_json))
+            logging.debug("Site status retrieved and parsed successfully.")
+        else:
+            logging.warning("Warning: No data found for key cgw/SiteStatus")
+            site_status = None
     except Exception as e:
-        print(f"Error: {e}")
+        logging.error(f"Error fetching site status: {e}")
+        site_status = None
 
-    key_charging_stations = 'cgw/ChargingStationsStatus'
-    charging_stations_status = None
     try:
-        charging_stations_status_json = redis_handler.get_value(key_charging_stations)
-        if charging_stations_status_json is not None:
-            charging_stations_status = json.loads(charging_stations_status_json)
+        charging_status_json = redis_handler.get_value('cgw/ChargingStationsStatus')
+        if charging_status_json:
+            charging_stations_status = ChargingStationsStatus.from_json(json.loads(charging_status_json))
+            logging.debug("Charging stations status retrieved and parsed successfully.")
+        else:
+            logging.warning("Warning: No data found for key cgw/ChargingStationsStatus")
+            charging_stations_status = None
     except Exception as e:
-        print(f"Error: {e}")
+        logging.error(f"Error fetching charging stations status: {e}")
+        charging_stations_status = None
 
-    dnsmasq_leases = DnsmasqLeases("/data/dnsmasq/dnsmasq.leases")
     try:
         dnsmasq_leases.read_leases()
+        logging.debug("Dnsmasq leases read successfully.")
     except Exception as e:
-        print(f"Error: {e}")
+        logging.error(f"Error reading dnsmasq leases: {e}")
 
-    charging_stations_status = ChargingStationsStatus.from_json(charging_stations_status)
-    site_status = SiteStatus.from_json(site_status)
-
-    site_status.display(dnsmasq_leases, charging_stations_status)
-
+    if site_status and charging_stations_status:
+        logging.debug("Both site status and charging stations status are available. Calling display method.")
+        site_status.display(dnsmasq_leases, charging_stations_status)
+    else:
+        logging.error("Error: Unable to display statuses due to missing data.")

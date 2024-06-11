@@ -50,7 +50,6 @@ class ChargingStationsStatus:
     """
     Represents the status of charging stations.
     """
-
     chargers: List[Charger]
 
     @classmethod
@@ -65,42 +64,43 @@ class ChargingStationsStatus:
             ChargingStationsStatus: The created ChargingStationsStatus object.
         """
         if json_dict is None:
-            return cls(chargers=[])  # Return an empty list if json_dict is None
+            return cls(chargers=[])
 
         chargers = []
         for charger_data in json_dict.get('chargers', []):
             connectors = []
             for connector_data in charger_data.get('connectors', []):
-                ocpp_error_data = connector_data['ocpp_error']
+                ocpp_error_data = connector_data.get('ocpp_error', {})
                 ocpp_error = OcppError(
-                    error_code=ocpp_error_data['error_code'],
-                    info=ocpp_error_data['info'],
-                    timestamp=ocpp_error_data['timestamp'],
-                    vendor_error_code=ocpp_error_data['vendor_error_code'],
-                    vendor_id=ocpp_error_data['vendor_id']
+                    error_code=ocpp_error_data.get('error_code', ''),
+                    info=ocpp_error_data.get('info', ''),
+                    timestamp=ocpp_error_data.get('timestamp', ''),
+                    vendor_error_code=ocpp_error_data.get('vendor_error_code', ''),
+                    vendor_id=ocpp_error_data.get('vendor_id', '')
                 )
                 connector = Connector(
-                    id=connector_data['id'],
+                    id=connector_data.get('id', 0),
                     ocpp_error=ocpp_error,
-                    ocpp_error_code=connector_data['ocpp_error_code'],
-                    priority=connector_data['priority'],
-                    status=connector_data['status']
+                    ocpp_error_code=connector_data.get('ocpp_error_code', ''),
+                    priority=connector_data.get('priority', False),
+                    status=connector_data.get('status', '')
                 )
                 connectors.append(connector)
+            ocpp_error_data = charger_data.get('ocpp_error', {})
             charger = Charger(
                 connectors=connectors,
-                firmware_version=charger_data['firmware_version'],
-                id=charger_data['id'],
-                ip_address=charger_data['ip_address'],
+                firmware_version=charger_data.get('firmware_version', ''),
+                id=charger_data.get('id', ''),
+                ip_address=charger_data.get('ip_address', ''),
                 ocpp_error=OcppError(
-                    error_code=charger_data['ocpp_error']['error_code'],
-                    info=charger_data['ocpp_error']['info'],
-                    timestamp=charger_data['ocpp_error']['timestamp'],
-                    vendor_error_code=charger_data['ocpp_error']['vendor_error_code'],
-                    vendor_id=charger_data['ocpp_error']['vendor_id']
+                    error_code=ocpp_error_data.get('error_code', ''),
+                    info=ocpp_error_data.get('info', ''),
+                    timestamp=ocpp_error_data.get('timestamp', ''),
+                    vendor_error_code=ocpp_error_data.get('vendor_error_code', ''),
+                    vendor_id=ocpp_error_data.get('vendor_id', '')
                 ),
-                ocpp_error_code=charger_data['ocpp_error_code'],
-                status=charger_data['status']
+                ocpp_error_code=charger_data.get('ocpp_error_code', ''),
+                status=charger_data.get('status', '')
             )
             chargers.append(charger)
         return cls(chargers=chargers)
@@ -161,6 +161,36 @@ class ChargingStationsStatus:
                 return charger.ip_address
         return "IP not found"
 
+    def read_previous_status(self, file_path: str) -> dict:
+        """
+        Read the previous status from a JSON file.
+
+        Args:
+            file_path (str): Path to the JSON file.
+
+        Returns:
+            dict: Previous status data.
+        """
+        try:
+            with open(file_path, 'r') as json_file:
+                previous_data = json.load(json_file)
+                return {tuple(entry[:2]): entry[-1] for entry in previous_data}
+        except FileNotFoundError:
+            return {}
+
+    def write_status_changes(self, file_path: str, status_changes: List[List[str]]):
+        """
+        Write status changes to a CSV file.
+
+        Args:
+            file_path (str): Path to the CSV file.
+            status_changes (List[List[str]]): Status changes data.
+        """
+        if status_changes:
+            with open(file_path, 'a', newline='') as csv_file:
+                writer = csv.writer(csv_file)
+                writer.writerows(status_changes)
+
     def display(self) -> str:
         """
         Display the charging stations status, compare with the previous status,
@@ -170,14 +200,7 @@ class ChargingStationsStatus:
             str: The formatted text displaying charging stations status.
         """
         output = StringIO()
-
-        # Read previous status from JSON file if available
-        try:
-            with open('tabledata.json', 'r') as json_file:
-                previous_data = json.load(json_file)
-                self.previous_status = {tuple(entry[:2]): entry[-1] for entry in previous_data}
-        except FileNotFoundError:
-            self.previous_status = {}
+        previous_status = self.read_previous_status('tabledata.json')
 
         table_data = []
         status_changes = []
@@ -200,8 +223,8 @@ class ChargingStationsStatus:
                 ])
 
                 # Check if status has changed
-                previous_status = self.previous_status.get((charger.id, connector.id))
-                if previous_status and previous_status != connector.status:
+                prev_status = previous_status.get((charger.id, connector.id))
+                if prev_status and prev_status != connector.status:
                     status_changes.append([datetime.now().strftime("%Y-%m-%d %H:%M:%S"), charger.id, connector.status])
 
         # Sort table data by charger ID
@@ -216,12 +239,10 @@ class ChargingStationsStatus:
             json.dump(sorted_table_data, json_file, indent=4)
 
         # Write status changes to CSV file
-        if status_changes:
-            with open('status_changes.csv', 'a', newline='') as csv_file:
-                writer = csv.writer(csv_file)
-                writer.writerows(status_changes)
+        self.write_status_changes('status_changes.csv', status_changes)
 
         return output.getvalue()
+
 
 # # Define the path to the JSON file
 # json_file_path = "charging_stations_status.json"

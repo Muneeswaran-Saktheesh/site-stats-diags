@@ -6,7 +6,7 @@ from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import TextArea
 from prompt_toolkit.completion import NestedCompleter
-from typing import Callable, Dict
+from typing import Callable, Dict, List
 import os
 import threading
 import time
@@ -18,7 +18,7 @@ class TerminalScreen:
         self.command_handler: Callable[[str], str] = None  # Command handler function
         self.cmds_dir = cmds_dir
         self.completer: NestedCompleter = self.init_nested_cmds()
-        self.running_threads: list[threading.Thread] = []  # List to store running threads
+        self.running_threads: List[threading.Thread] = []  # List to store running threads
 
         # Initialize key bindings
         kb = KeyBindings()
@@ -28,6 +28,7 @@ class TerminalScreen:
         @kb.add("q")
         def _(event):
             "Pressing Ctrl-Q or Ctrl-C will exit the user interface."
+            self.kill_threads()
             event.app.exit()
 
         # Initialize styles
@@ -66,6 +67,7 @@ class TerminalScreen:
             """
             command = self.input_field.text
             self.handle_command(command)
+            self.input_field.buffer.document = Document(text='')
 
         self.input_field.accept_handler = accept
 
@@ -101,7 +103,7 @@ class TerminalScreen:
         interval_thread.daemon = True  # Set as a daemon thread to exit with the main thread
         interval_thread.start()
 
-        # Store the thread in the list
+        # Store the thread and stop_event in the list
         self.running_threads.append((interval_thread, stop_event))
 
     def display_string(self, message: str) -> None:
@@ -152,19 +154,19 @@ class TerminalScreen:
 
     def display(self, text: str) -> None:
         if text is not None:
+            current_text = self.output_field.text
             self.output_field.buffer.document = Document(
-                text=text, cursor_position=len(text)
+                text=current_text + '\n' + text, cursor_position=len(current_text + '\n' + text)
             )
 
-    def init_nested_cmds(self) -> None:
+    def init_nested_cmds(self) -> NestedCompleter:
         mydict = self.dir_2_dict(self.cmds_dir, d={})
         try:
-            self.completer = NestedCompleter.from_nested_dict(mydict[self.cmds_dir])
+            completer = NestedCompleter.from_nested_dict(mydict[os.path.basename(self.cmds_dir)])
         except KeyError as e:
             print(f"KeyError occurred: {e}")
-            self.completer = None
-            return None
-        return self.completer
+            completer = None
+        return completer
 
     def dir_2_dict(self, path: str, d: Dict) -> Dict:
         """
