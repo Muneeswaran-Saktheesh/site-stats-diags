@@ -1,11 +1,12 @@
-from redis_handler import RedisHandler
-from site_status import SiteStatus
-from charging_stations_status import ChargingStationsStatus
-from dnmasq_leases import DnsmasqLeases
-from terminal_screen import TerminalScreen
+# commands/show/site-status/command.py
+from src.redis_handler import RedisHandler
+from src.site_status import SiteStatus
+from src.charging_stations_status import ChargingStationsStatus
+from src.dnsmasq_leases import DnsmasqLeases
+from src.terminal_screen import TerminalScreen
 import json
 
-class Command():
+class Command:
     def __init__(self, cmds, terminal_screen: TerminalScreen):
         self.cmds = cmds
         self.terminal_screen = terminal_screen
@@ -21,7 +22,6 @@ class Command():
             if site_status_json is not None:
                 site_status = json.loads(site_status_json)
         except Exception as e:
-            # If Redis is not reachable, load site status from file
             try:
                 with open('site_status.json', 'r') as f:
                     site_status = json.load(f)
@@ -36,7 +36,6 @@ class Command():
             if charging_stations_status_json is not None:
                 charging_stations_status = json.loads(charging_stations_status_json)
         except Exception as e:
-            # If Redis is not reachable, load charging station status from file
             try:
                 with open('charging_stations_status.json', 'r') as f:
                     charging_stations_status = json.load(f)

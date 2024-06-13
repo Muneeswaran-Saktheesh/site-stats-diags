@@ -4,26 +4,28 @@ from tabulate import tabulate
 
 
 class EV:
-    def __init__(self, id, charger_id, status, start_charging_time):
+    def __init__(self, id, status, **kwargs):
         self.id = id
-        self.charger_id = charger_id
         self.status = status
-        self.start_charging_time = start_charging_time
+        # Handle any additional keys
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
 
 class SiteStatus:
     def __init__(self, charging_stations, datetime_str, evs, offline_chargers):
+        # Filter out the 'action' key
+        self.evs = [EV(**{k: v for k, v in ev.items() if k != 'action'}) for ev in evs]
         self.charging_stations = charging_stations
         self.datetime_str = datetime_str
-        self.evs = [EV(**ev) for ev in evs]
         self.offline_chargers = offline_chargers
 
     @classmethod
-    def from_json(cls, json_data):
-        charging_stations = json_data.get('charging_stations', [])
-        datetime_str = json_data.get('datetime_str', '')
-        evs = json_data.get('evs', [])
-        offline_chargers = json_data.get('offline_chargers', [])
+    def from_json(cls, data):
+        charging_stations = data['charging_stations']
+        datetime_str = data['datetime']
+        evs = data['evs']
+        offline_chargers = data['offline_chargers']
         return cls(charging_stations, datetime_str, evs, offline_chargers)
 
     def display(self, dnsmasq_leases, charging_stations_status):

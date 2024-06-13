@@ -1,16 +1,13 @@
+# cmd_dispatcher.py
 import os
 import shlex
 import importlib
-from typing import Dict, List, Union
-from terminal_screen import TerminalScreen
+from typing import List, Union
+from src.terminal_screen import TerminalScreen
 from prompt_toolkit.completion import NestedCompleter
 from prompt_toolkit.shortcuts import CompleteStyle
 
 class CmdDispatcher:
-    """
-    A command dispatcher class.
-    """
-
     completer: Union[None, NestedCompleter] = None
     complete_style: CompleteStyle = CompleteStyle.READLINE_LIKE
     cmds_avail: List[os.DirEntry] = []
@@ -20,17 +17,13 @@ class CmdDispatcher:
     def __init__(self, cmds_dir: str) -> None:
         self.cmds_dir = cmds_dir
         self.read_batch_file()
+        self.cmds_avail = [entry for entry in os.scandir(self.cmds_dir) if entry.is_dir()]
 
     def read_batch_file(self) -> bool:
-        """
-        Read commands from a batch file.
-
-        Returns:
-            bool: True if the batch file is successfully read, False otherwise.
-        """
         try:
             with open(os.path.join(self.cmds_dir, self.batchfilename)) as file:
                 self.batch = [line.rstrip() for line in file.readlines()]
+            print(f"Batch commands: {self.batch}")
             return True
         except FileNotFoundError:
             self.batch = []
@@ -38,25 +31,17 @@ class CmdDispatcher:
             return False
 
     def dispatch(self, cmd: str, cmds_dir: str, terminal: TerminalScreen, depth: int = 0) -> str:
-        """
-        Dispatch a command.
-
-        Args:
-            cmd (str): The command to dispatch.
-            cmds_dir (str): The directory of commands.
-            depth (int): The depth of command recursion.
-
-        Returns:
-            str: The output string from command.execute(), or None if execution fails.
-        """
         if not cmd:
             return None
 
         cmds = shlex.split(cmd)
-        depth -= 1
+        depth += 1
+
+        print(f"Dispatching command: {cmd}")
+        print(f"Available commands: {[entry.name for entry in self.cmds_avail]}")
 
         try:
-            command = cmds[depth]
+            command = cmds[depth - 1]
         except IndexError:
             print("Command not implemented:", cmd)
             return None
@@ -76,23 +61,24 @@ class CmdDispatcher:
         for entry in self.cmds_avail:
             if command == entry.name:
                 if len(cmds) > depth:
-                    return self.dispatch(cmd, os.path.join(cmds_dir, command), terminal, depth + 1)
+                    return self.dispatch(' '.join(cmds), os.path.join(cmds_dir, command), terminal, depth)
                 return None
 
         module_path = ["commands"] + cmds[:depth]
-        for x in cmds[:depth]:
-            if os.path.exists(os.path.join(module_path, 'command.py')):
-                break
+        module_dir = os.path.join(*module_path)
+        if os.path.exists(os.path.join(module_dir, 'command.py')):
+            module_name = '.'.join(module_path) + '.command'
+            try:
+                module = importlib.import_module(module_name)
+            except ImportError as e:
+                return str(e)
 
-        module_name = '.'.join(module_path) + '.command'
-        try:
-            module = importlib.import_module(module_name)
-        except ImportError as e:
-            return str(e)
+            command_module = getattr(module, 'Command', None)
+            if not command_module:
+                return "Command module not found."
 
-        command_module = getattr(module, 'command', None)
-        if not command_module:
-            return "Command module not found."
+            command_instance = command_module(cmds, terminal)
+            return command_instance.execute()
+        else:
+            return f"Command not found: {' '.join(cmds)}"
 
-        command_instance = command_module(cmds, terminal)
-        return command_instance.execute()
