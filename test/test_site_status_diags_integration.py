@@ -3,19 +3,28 @@ import unittest
 from unittest.mock import patch, MagicMock
 import fakeredis
 from src.charging_stations_status import ChargingStationsStatus
-from src.site_status_diags import main
+from src.site_status import SiteStatus
 from src.dnsmasq_leases import DnsmasqLeases
 from src.redis_handler import RedisHandler
-
+from src.site_status_diags import main
 
 class TestSiteStatusDiagsIntegration(unittest.TestCase):
 
     @patch('src.redis_handler.redis.StrictRedis', fakeredis.FakeStrictRedis)
-    @patch('src.site_status.SiteStatus.display')
+    @patch.object(SiteStatus, 'display')
     def test_end_to_end_integration(self, mock_display):
         # Setup test data
-        site_status_data = {"status": "active", "error": None}
-        charging_status_data = {"chargers": []}
+        site_status_data = {
+            "status": "active",
+            "error": None,
+            "datetime": "2023-01-01T00:00:00Z",
+            "charging_stations": [],
+            "evs": [],
+            "offline_chargers": []
+        }
+        charging_status_data = {
+            "chargers": []
+        }
         dns_leases_data = """1711017257 3a:67:30:61:1d:26 172.22.0.20 * *
 1711014315 3e:62:72:79:77:4b 172.22.0.139 * *
 1711014277 0e:67:34:61:29:24 172.22.0.106 * *

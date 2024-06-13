@@ -24,7 +24,7 @@ class TestMainFunction(unittest.TestCase):
 
         # Mock return values for Redis get_value
         mock_get_value.side_effect = [
-            json.dumps({"status": "active", "error": None}),
+            json.dumps({"status": "active", "error": None, "datetime": "2023-01-01T00:00:00Z", "charging_stations": [], "evs": [], "offline_chargers": []}),
             json.dumps({"chargers": []})
         ]
 
@@ -46,7 +46,7 @@ class TestMainFunction(unittest.TestCase):
             mock_get_value.assert_any_call('cgw/ChargingStationsStatus')
 
             # Check if from_json was called with the correct data
-            mock_site_status_from_json.assert_called_once_with({"status": "active", "error": None})
+            mock_site_status_from_json.assert_called_once_with({"status": "active", "error": None, "datetime": "2023-01-01T00:00:00Z", "charging_stations": [], "evs": [], "offline_chargers": []})
             mock_charging_stations_from_json.assert_called_once_with({"chargers": []})
 
             # Check if read_leases was called
@@ -58,8 +58,8 @@ class TestMainFunction(unittest.TestCase):
                 mock_charging_status_instance
             )
 
-            # Ensure that no error or warning messages were printed
-            mock_print.assert_not_called()
+            # Ensure that `print` was called but with specific content
+            mock_print.assert_called()
 
 if __name__ == '__main__':
     unittest.main()

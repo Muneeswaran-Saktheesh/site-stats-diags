@@ -44,6 +44,7 @@ def main():
 
     if site_status and charging_stations_status:
         logging.debug("Both site status and charging stations status are available. Calling display method.")
-        site_status.display(dnsmasq_leases, charging_stations_status)
+        display_output = site_status.display(dnsmasq_leases, charging_stations_status)
+        print(display_output)
     else:
         logging.error("Error: Unable to display statuses due to missing data.")
