@@ -2,3 +2,5 @@ show
 show site-status
 watch
 test
+monitor
+monitor charging-stations

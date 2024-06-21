@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Dict
 from tabulate import tabulate
 from datetime import datetime
 import json
@@ -243,16 +243,45 @@ class ChargingStationsStatus:
 
         return output.getvalue()
 
+    def get_logs(self) -> List[Dict]:
+        """
+        Extract logs from the charging station status data.
 
-# # Define the path to the JSON file
-# json_file_path = "charging_stations_status.json"
+        Returns:
+            List[Dict]: List of log entries with relevant information.
+        """
+        logs = []
+        for charger in self.chargers:
+            for connector in charger.connectors:
+                log_entry = {
+                    "charger_id": charger.id,
+                    "connector_id": connector.id,
+                    "status": connector.status,
+                    "timestamp": connector.ocpp_error.timestamp,
+                    "error_code": connector.ocpp_error.error_code,
+                    "info": connector.ocpp_error.info,
+                    "ip_address": charger.ip_address
+                }
+                logs.append(log_entry)
+        return logs
 
-# # Read JSON data from the file
-# with open(json_file_path, "r") as file:
-#     json_data = json.load(file)
 
-# # Create a ChargingStationsStatus instance from the JSON data
-# charger_data = ChargingStationsStatus.from_json(json_data)
+# Example usage
+if __name__ == "__main__":
+    # Define the path to the JSON file
+    json_file_path = "charging_stations_status.json"
 
-# # Display the charging station status
-# charger_data.display()
+    # Read JSON data from the file
+    with open(json_file_path, "r") as file:
+        json_data = json.load(file)
+
+    # Create a ChargingStationsStatus instance from the JSON data
+    charger_data = ChargingStationsStatus.from_json(json_data)
+
+    # Display the charging station status
+    print(charger_data.display())
+
+    # Get logs
+    logs = charger_data.get_logs()
+    for log in logs:
+        print(log)
