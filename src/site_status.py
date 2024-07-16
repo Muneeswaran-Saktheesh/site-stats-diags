@@ -4,7 +4,8 @@ from tabulate import tabulate
 
 
 class EV:
-    def __init__(self, id, status, **kwargs):
+    def __init__(self, charger_id, id, status, **kwargs):
+        self.charger_id = charger_id
         self.id = id
         self.status = status
         # Handle any additional keys
@@ -14,8 +15,7 @@ class EV:
 
 class SiteStatus:
     def __init__(self, charging_stations, datetime_str, evs, offline_chargers):
-        # Filter out the 'action' key
-        self.evs = [EV(**{k: v for k, v in ev.items() if k != 'action'}) for ev in evs]
+        self.evs = [EV(**ev) for ev in evs]
         self.charging_stations = charging_stations
         self.datetime_str = datetime_str
         self.offline_chargers = offline_chargers

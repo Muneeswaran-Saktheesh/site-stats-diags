@@ -1,128 +1,82 @@
-import time
 import unittest
-from unittest.mock import patch, MagicMock
-import json
-from datetime import datetime, timedelta
-from src.charging_stations_status import ChargingStationsStatus
-from src.charging_stations_tracker import ChargingStationsStatusTracker, SlidingTimeWindow, CriticalErrorPatternDetector, CustomMetrics
-from src.redis_handler import RedisHandler
+from unittest.mock import MagicMock, patch
+import logging
 
-class TestMonitorSystem(unittest.TestCase):
-    @patch('src.redis_handler.RedisHandler')
-    @patch('src.statsd.StatsClient')  # Mock StatsClient for testing
-    def test_monitor_system(self, MockStatsClient, MockRedisHandler):
-        # Mock Redis handler to return predefined JSON data
-        mock_redis_handler = MockRedisHandler.return_value
-        mock_redis_handler.get_value.side_effect = [
-            json.dumps({
-                "chargers": [
-                    {
-                        "connectors": [
-                            {
-                                "id": 1,
-                                "ocpp_error": {
-                                    "error_code": "NoError",
-                                    "info": None,
-                                    "timestamp": "2024-03-14T08:13:48.958235+00:00",
-                                    "vendor_error_code": None,
-                                    "vendor_id": None
-                                },
-                                "ocpp_error_code": "NoError",
-                                "priority": False,
-                                "status": "suspended_ev"
-                            }
-                        ],
-                        "firmware_version": "6.5.0-QA2-LA-9332",
-                        "id": "ACE0237626",
-                        "ip_address": "172.22.0.20",
-                        "ocpp_error": {
-                            "error_code": "NoError",
-                            "info": "Info: Charge card C428575C detected",
-                            "timestamp": "2024-03-14T05:30:58.506711+00:00",
-                            "vendor_error_code": None,
-                            "vendor_id": None
-                        },
-                        "ocpp_error_code": "NoError",
-                        "status": "online"
-                    }
-                ]
-            }),
-            json.dumps({
-                "chargers": [
-                    {
-                        "connectors": [
-                            {
-                                "id": 1,
-                                "ocpp_error": {
-                                    "error_code": "NoError",
-                                    "info": "Cable connected without tag remove cable retry",
-                                    "timestamp": "2024-03-14T07:40:38.581912+00:00",
-                                    "vendor_error_code": "304",
-                                    "vendor_id": None
-                                },
-                                "ocpp_error_code": "NoError",
-                                "priority": False,
-                                "status": "finishing"
-                            }
-                        ],
-                        "firmware_version": "6.5.0-QA2-LA-9332",
-                        "id": "ACE0237626",
-                        "ip_address": "172.22.0.20",
-                        "ocpp_error": {
-                            "error_code": "NoError",
-                            "info": "Info: Charge card C428575C detected",
-                            "timestamp": "2024-03-14T05:30:58.506711+00:00",
-                            "vendor_error_code": None,
-                            "vendor_id": None
-                        },
-                        "ocpp_error_code": "NoError",
-                        "status": "online"
-                    }
-                ]
-            })
+from src.charging_stations_status import ChargingStationsStatus
+from src.charging_stations_tracker import ChargingStationsStatusTracker
+from src.site_status import SiteStatus
+from src.charging_stations_status import Charger, Connector  # Import these classes if they exist in the same module
+
+class TestChargingStationsStatusTracker(unittest.TestCase):
+    @patch('src.charging_stations_status.ChargingStationsStatus.from_json')
+    @patch('src.site_status.SiteStatus.from_json')
+    @patch('src.redis_handler.RedisHandler', autospec=True)
+    def test_integration_with_status_changes(self, mock_redis_handler, mock_site_status_from_json,
+                                             mock_charging_stations_status_from_json):
+        logging.basicConfig(level=logging.DEBUG)
+        logging.debug("Starting test_integration_with_status_changes")
+
+        # Mock RedisHandler instance
+        redis_handler = mock_redis_handler.return_value
+
+        # Mock RedisHandler responses for status data
+        redis_handler.get_value.side_effect = [
+            '{"chargers": [{"connectors": [{"id": 1, "status": "online"}], "id": "charger1"}]}',
+            '{"evs": [{"charger_id": "charger1", "status": "online"}]}',
+            '{"chargers": [{"connectors": [{"id": 1, "status": "available"}], "id": "charger1"}]}',
+            '{"evs": [{"charger_id": "charger1", "status": "available"}]}',
+            '{"chargers": [{"connectors": [{"id": 1, "status": "charging"}], "id": "charger1"}]}',
+            '{"evs": [{"charger_id": "charger1", "status": "charging"}]}',
+            '{"chargers": [{"connectors": [{"id": 1, "status": "offline"}], "id": "charger1"}]}',
+            '{"evs": [{"charger_id": "charger1", "status": "offline"}]}'
         ]
 
-        # Initialize components for monitoring system
-        redis_handler = RedisHandler()
-        status_tracker = ChargingStationsStatusTracker(redis_handler)
-        time_window = SlidingTimeWindow(interval_minutes=5)
-        error_detector = CriticalErrorPatternDetector()
+        # Create mock objects for status
+        def create_mock_status(charger_status, ev_status):
+            mock_charging_status = MagicMock(spec=ChargingStationsStatus)
+            mock_site_status = MagicMock(spec=SiteStatus)
+            mock_charger = MagicMock()
+            mock_charger.connectors = [MagicMock(id=1, status=charger_status)]
+            mock_charging_status.chargers = [mock_charger]
+            mock_charging_status.ocpp_error = 'NoError'
+            mock_charging_status.ocpp_error_code = 'NoError'
+            mock_charging_status.priority = False
+            mock_ev = MagicMock()
+            mock_ev.charger_id = "charger1"
+            mock_ev.status = ev_status
+            mock_site_status.evs = [mock_ev]
+            return mock_charging_status, mock_site_status
 
-        # Mock StatsClient instance
-        mock_stats_client_instance = MockStatsClient.return_value
+        # Set up mock returns for each call
+        mock_charging_stations_status_from_json.side_effect = [
+            create_mock_status("online", "online")[0],
+            create_mock_status("available", "available")[0],
+            create_mock_status("charging", "charging")[0],
+            create_mock_status("offline", "offline")[0]
+        ]
+        mock_site_status_from_json.side_effect = [
+            create_mock_status("online", "online")[1],
+            create_mock_status("available", "available")[1],
+            create_mock_status("charging", "charging")[1],
+            create_mock_status("offline", "offline")[1]
+        ]
 
-        # Ensure CustomMetrics uses the mocked StatsClient
-        metrics = CustomMetrics()
-        metrics.statsd = mock_stats_client_instance
+        tracker = ChargingStationsStatusTracker(redis_handler)
 
-        # Simulate monitoring loop
-        for i in range(2):  # Simulate 2 iterations of the monitoring loop
-            derivative = status_tracker.get_derivative()
-            if derivative is not None:
-                log = {
-                    'timestamp': datetime.now().isoformat(),
-                    'event': {
-                        'status': 'suspended_ev' if i == 0 else 'finishing',
-                        'charger_id': 'ACE0237626',
-                        'connector_id': 1
-                    }
-                }
-                time_window.add_log(log)
-                error_patterns = error_detector.analyze_logs(time_window.get_logs())
-                metrics.report_critical_error(len(error_patterns))
-                if error_patterns:
-                    # Integrate alerting mechanism here if required
-                    print(f"Critical error patterns detected: {len(error_patterns)}")
+        # Simulate multiple calls to get_derivative to ensure it captures status changes
+        for i in range(4):  # Four iterations to simulate status changes
+            logging.debug(f"Iteration {i}")
+            derivative = tracker.get_derivative()
+            logging.debug(f"Derivative: {derivative}")
 
-            # Simulate 10-second interval between each iteration
-            time.sleep(10)
+        # Assert the derivative output
+        self.assertIsNotNone(derivative)
+        self.assertIn('status_diff', derivative)
+        self.assertIn('site_status_diff', derivative)
+        self.assertIn('events', derivative)
+        self.assertIsInstance(derivative['events'], list)
+        self.assertGreaterEqual(len(derivative['events']), 1)
 
-        # Assertions to verify system behavior (e.g., metrics reporting)
-        try:
-            mock_stats_client_instance.gauge.assert_called_once_with('critical_error_patterns', 1)
-        except AssertionError as e:
-            print(f"AssertionError: {e}")
-            print(f"Actual calls: {mock_stats_client_instance.calls}")
 
 if __name__ == '__main__':
     unittest.main()
