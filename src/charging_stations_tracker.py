@@ -118,6 +118,17 @@ class ChargingStationsStatusTracker:
                     }
                     logging.debug(f"Event generated: {event}")
                     events.append(event)
+
+                    # Detect critical error pattern
+                    if current_connector.status == 'offline' and previous_connector.status == 'suspended_ev':
+                        critical_event = {
+                            'timestamp': datetime.utcnow().isoformat(),
+                            'charger_id': current_charger.id,
+                            'connector_id': current_connector.id,
+                            'status': 'critical_error_detected'
+                        }
+                        logging.debug(f"Critical error detected: {critical_event}")
+                        events.append(critical_event)
         return events
 
 
